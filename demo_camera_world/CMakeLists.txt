@@ -9,6 +9,11 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(DIRECTORY
+  launch/
+  DESTINATION share/${PROJECT_NAME}
+)
+
 ament_package()
 
 file(GLOB_RECURSE traffic_editor_paths "maps/*.building.yaml")
