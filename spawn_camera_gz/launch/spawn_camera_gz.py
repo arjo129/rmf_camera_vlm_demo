@@ -13,12 +13,18 @@ def launch_setup(context):
     y = launch.substitutions.LaunchConfiguration('y').perform(context)
     z = launch.substitutions.LaunchConfiguration('z').perform(context)
 
+    qx = launch.substitutions.LaunchConfiguration('qx').perform(context)
+    qy = launch.substitutions.LaunchConfiguration('qy').perform(context)
+    qz = launch.substitutions.LaunchConfiguration('qz').perform(context)
+    qw = launch.substitutions.LaunchConfiguration('qw').perform(context)
+    sensor = launch.substitutions.LaunchConfiguration('sensor').perform(context)
+
     pkg_ros_gz_sim = get_package_share_directory('spawn_camera_gz')
     cmd_str= [
               "gz", "service", "-s",
               f"/world/{world_name.perform(context)}/create", "--reqtype", "gz.msgs.EntityFactory",
               "--req",
-              f"'sdf_filename: \"{pkg_ros_gz_sim}/models/semantic_camera.sdf\", pose: {{position: {{x: {x}, y: {y}, z: {z} }}}}'",
+              f"'sdf_filename: \"{pkg_ros_gz_sim}/models/{sensor}.sdf\", pose: {{position: {{x: {x}, y: {y}, z: {z} }}, orientation {{qx: {qx}, qy: {qy},qz: {qz},qw: {qw}}}}}'",
               "--reptype", "gz.msgs.Boolean"]
 
     return [ExecuteProcess(
@@ -33,6 +39,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'world_name',
             default_value='sim_world'
+        ),
+        DeclareLaunchArgument(
+            'sensor',
+            default_value='camera'
         ),
         DeclareLaunchArgument(
             'x',

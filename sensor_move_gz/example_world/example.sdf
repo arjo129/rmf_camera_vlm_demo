@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+    <!--
+      System plugins can be loaded from <plugin> tags attached to entities like
+      the world, models, visuals, etc.
+    -->
+    <plugin filename="random_camera_poser" name="random_camera_poser::RandomCameraPoser">
+    </plugin>
+  </world>
+</sdf>
