@@ -21,6 +21,5 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros plugin_path="${prefix}/plugins"/>
   </export>
 </package>

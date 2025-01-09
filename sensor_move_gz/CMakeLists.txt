@@ -16,6 +16,8 @@ find_package(gz-msgs REQUIRED)
 find_package(gz_transport_vendor REQUIRED)
 find_package(gz-transport REQUIRED)
 
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.dsv.in")
+
 add_library(random_camera_poser SHARED src/random_camera_poser.cpp)
 
 target_include_directories(random_camera_poser
@@ -31,8 +33,8 @@ target_link_libraries(random_camera_poser
 
 install(
   TARGETS random_camera_poser
-  LIBRARY DESTINATION share/${PROJECT_NAME}/plugins
-  ARCHIVE DESTINATION share/${PROJECT_NAME}/plugins
+  LIBRARY DESTINATION share/${PROJECT_NAME}
+  ARCHIVE DESTINATION share/${PROJECT_NAME}
 )
 
 

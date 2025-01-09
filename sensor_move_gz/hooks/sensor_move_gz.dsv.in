@@ -1,0 +1,2 @@
+prepend-non-duplicate;GZ_SIM_SYSTEM_PLUGIN_PATH;share/sensor_move_gz/
+prepend-non-duplicate;GZ_GUI_PLUGIN_PATH;share/sensor_move_gz/

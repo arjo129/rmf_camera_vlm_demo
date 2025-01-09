@@ -6,6 +6,12 @@
       the world, models, visuals, etc.
     -->
     <plugin filename="random_camera_poser" name="random_camera_poser::RandomCameraPoser">
+      <min_x>0</min_x>
+      <max_x>25</max_x>
+      <min_y>-15</min_y>
+      <max_y>0</max_y>
+      <min_z>0</min_z>
+      <max_z>1</max_z>
     </plugin>
   </world>
 </sdf>

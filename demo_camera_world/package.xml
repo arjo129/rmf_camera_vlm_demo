@@ -16,6 +16,5 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/maps/office/models:~/.gazebo/models"/>
   </export>
 </package>

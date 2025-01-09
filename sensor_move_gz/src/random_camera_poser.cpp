@@ -69,6 +69,12 @@ void RandomCameraPoser::Configure(
   gz::sim::EventManager &/*_eventMgr*/)
 {
   this->model = gz::sim::Model(_entity);
+  this->minX = _sdf->Get<double>("min_x", 0.0).first;
+  this->maxX = _sdf->Get<double>("max_x", 0.0).first;
+  this->minY = _sdf->Get<double>("min_y", 0.0).first;
+  this->maxY = _sdf->Get<double>("max_y", 0.0).first;
+  this->minZ = _sdf->Get<double>("min_z", 0.0).first;
+  this->maxZ = _sdf->Get<double>("max_z", 0.0).first;
 }
 void RandomCameraPoser::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::sim::EntityComponentManager &_ecm)

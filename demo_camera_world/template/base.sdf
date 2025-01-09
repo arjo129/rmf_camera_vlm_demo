@@ -298,6 +298,59 @@
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
     </light>
+<model name="camera1">
+    <link name="link">
+    <pose>0.05 0.05 0.05 0 0 0</pose>
+    <inertial>
+        <mass>0.1</mass>
+        <inertia>
+        <ixx>0.000166667</ixx>
+        <iyy>0.000166667</iyy>
+        <izz>0.000166667</izz>
+        </inertia>
+    </inertial>
+    <collision name="collision">
+        <geometry>
+        <box>
+            <size>0.1 0.1 0.1</size>
+        </box>
+        </geometry>
+    </collision>
+    <visual name="visual">
+        <geometry>
+        <box>
+            <size>0.1 0.1 0.1</size>
+        </box>
+        </geometry>
+    </visual>
+    <sensor name="camera" type="camera">
+        <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+            <width>320</width>
+            <height>240</height>
+        </image>
+        <clip>
+            <near>0.1</near>
+            <far>100</far>
+        </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>camera</topic>
+    </sensor>
+    </link>
+<plugin filename="random_camera_poser" name="random_camera_poser::RandomCameraPoser">
+      <min_x>0</min_x>
+      <max_x>25</max_x>
+      <min_y>-15</min_y>
+      <max_y>0</max_y>
+      <min_z>0</min_z>
+      <max_z>1</max_z>
+    </plugin>
+</model>
+
 
   </world>
 </sdf>
