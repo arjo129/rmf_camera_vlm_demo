@@ -3,6 +3,11 @@
 #include <gz/common/Console.hh>
 #include <gz/sim/System.hh>
 #include <gz/sim/Model.hh>
+#include <gz/common/Image.hh>
+#include <gz/msgs/image.pb.h>
+#include <gz/msgs/Utility.hh>
+#include <gz/transport/Node.hh>
+
 #include <random>
 
 namespace random_camera_poser {
@@ -34,6 +39,34 @@ namespace random_camera_poser {
     private: std::chrono::steady_clock::duration lastTimeReposed{0};
 
     private: double minX, minY, minZ, maxX, maxY, maxZ;
+
+    private: gz::math::Pose3<double> currPose;
+
+    private: /// \brief Holds data to set as the next image
+    std::optional<gz::msgs::Image> imageMsg;
+
+    /// \brief Node for communication.
+    public: gz::transport::Node node;
+
+    private: void OnImageMsg(const gz::msgs::Image &_msg) {
+      this->imageMsg = _msg;
+      std::stringstream ss;
+      ss << "data/rgb_image_"<< currPose.Pos().X() << "_"
+        << currPose.Pos().Y() << "_"
+        << currPose.Pos().Z() << "_"
+        << currPose.Rot().Euler().X() << "_"
+        << currPose.Rot().Euler().Y() << "_"
+        << currPose.Rot().Euler().Z() << ".png";
+
+      gz::common::Image img;
+      gz::common::Image::PixelFormatType pixelFormat =
+            gz::common::Image::ConvertPixelFormat(
+            gz::msgs::ConvertPixelFormatType(
+            this->imageMsg->pixel_format_type()));
+
+      img.SetFromData((const unsigned char*)_msg.data().c_str(), _msg.width(), _msg.height(), pixelFormat);
+      img.SavePNG(ss.str());
+    }
   };
 }
 
@@ -75,6 +108,9 @@ void RandomCameraPoser::Configure(
   this->maxY = _sdf->Get<double>("max_y", 0.0).first;
   this->minZ = _sdf->Get<double>("min_z", 0.0).first;
   this->maxZ = _sdf->Get<double>("max_z", 0.0).first;
+
+  this->node.Subscribe("camera", &RandomCameraPoser::OnImageMsg,
+      this);
 }
 void RandomCameraPoser::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::sim::EntityComponentManager &_ecm)
@@ -98,7 +134,8 @@ void RandomCameraPoser::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::math::Pose3<double> randPose(
         randPos, randOrientation
     );
-
+    currPose = randPose;
     this->model.SetWorldPoseCmd(_ecm, randPose);
+    this->imageMsg = std::nullopt;
   }
 }
